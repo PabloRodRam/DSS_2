@@ -1300,7 +1300,7 @@ rule "Nausea or vomiting (a)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev("nausea_vomiting") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
   
     then
     	patient.editProb("Pneumonia",1);
@@ -1312,7 +1312,7 @@ rule "Nausea or vomiting (b)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev("nausea_vomiting") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
   
     then
     	patient.editProb("Pneumonia",1);
@@ -1324,7 +1324,7 @@ rule "Nausea or vomiting (c)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") >= 3)
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev("nausea_vomiting") >= 3)
     then
     	patient.editProb("Pneumonia",1);
     	patient.editProb("COVID", 1);
