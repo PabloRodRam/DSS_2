@@ -1144,7 +1144,7 @@ rule "Trouble swallowing (a)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("hoarseness") == true) && PatientPojo(detectSymSev("hoarseness") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opioids") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+    	patient: PatientPojo(detectSym("trouble_swallowing") == true) && PatientPojo(detectSymSev("trouble_swallowing") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opioids") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
   
     then
     	patient.editProb("Lung_Cancer", -0.8);
@@ -1156,7 +1156,7 @@ rule "Trouble swallowing (b)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("hoarseness") == true) && PatientPojo(detectSymSev("hoarseness") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opioids") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+    	patient: PatientPojo(detectSym("trouble_swallowing") == true) && PatientPojo(detectSymSev("trouble_swallowing") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opioids") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
   
     then
     	patient.editProb("Lung_Cancer", 0.5);
@@ -1168,347 +1168,545 @@ rule "Trouble swallowing (c)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("hoarseness") == true) && PatientPojo(detectSymSev("hoarseness") >= 3)
+    	patient: PatientPojo(detectSym("trouble_swallowing") == true) && PatientPojo(detectSymSev("trouble_swallowing") >= 3)
     then
     	patient.editProb("Lung_Cancer", 1);
         
 
 end
 
-
-/*
-
-rule "Fever or chills"
+rule "Fever or chills (a)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Fever_chills == true )
+    	patient: PatientPojo(detectSym("fever_chills") == true) && PatientPojo(detectSymSev("fever_chills") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
-
-        disease.setCOVID(disease.getCOVID() + 3);
-        disease.setBronchitis_Chronic(disease.getBronchitis_Chronic() + 1);
-        disease.setPneumonia(disease.getPneumonia() + 3);
-        disease.setFlu(disease.getFlu() + 3);                
+    	patient.editProb("Pneumonia",1.2);
+    	patient.editProb("Bronchitis_Chronic",-0.8);
+    	patient.editProb("COVID", 1.2);
+    	patient.editProb("Flu", 1.2);        
 
 end
 
-rule "Loss of taste or smell"
+rule "Fever or chills (b)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Loss_taste_smell == true )
+    	patient: PatientPojo(detectSym("fever_chills") == true) && PatientPojo(detectSymSev("fever_chills") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
-        
-        disease.setCOVID(disease.getCOVID() + 3);
-        
+    	patient.editProb("Pneumonia",2.5);
+    	patient.editProb("Bronchitis_Chronic",0.5);
+    	patient.editProb("COVID", 2.5);
+    	patient.editProb("Flu", 2.5);        
 
 end
 
-rule "Congestion or running nose"
+rule "Fever or chills (c)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Congestion_or_running_nose == true )
+    	patient: PatientPojo(detectSym("fever_chills") == true) && PatientPojo(detectSymSev("fever_chills") >= 3)
     then
-        disease.setCOVID(disease.getCOVID() + 1);
-        disease.setFlu(disease.getFlu() + 3);        
-        disease.setCold(disease.getCold() + 3);    
-        
+    	patient.editProb("Pneumonia",3);
+    	patient.editProb("Bronchitis_Chronic",1);
+    	patient.editProb("COVID", 3);
+    	patient.editProb("Flu", 3);        
 
 end
 
-rule "Nausea or vomiting"
+rule "Loss of taste or smell (a)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Nausea_vomiting == true )
-    then
-
-        disease.setCOVID(disease.getCOVID() + 1);
-        disease.setPneumonia(disease.getPneumonia() + 1);
-        
-end
-
-rule "Inflammation of the respiratory tract"
-    dialect "java"
-
-    when
-    	disease: Disease()
-        symptom: Symptoms(Inflammation_respiratory_tract == true )
+    	patient: PatientPojo(detectSym("loss_taste_smell") == true) && PatientPojo(detectSymSev("loss_taste_smell") <= 2) && (PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
         
-        disease.setAsthma(disease.getAsthma() + 2);
-        disease.setBronchitis_Chronic(disease.getBronchitis_Chronic() + 3);
-
-end
-
-rule "Sweating"
-    dialect "java"
-
-    when
-    	disease: Disease()
-        symptom: Symptoms(Sweating == true )
-    then
-        
-        disease.setHyperapnea(disease.getHyperapnea() + 2);
-        disease.setDysnea(disease.getDysnea() + 1);
-        disease.setAsthma(disease.getAsthma() + 1);
-        disease.setPneumonia(disease.getPneumonia() + 3);
+        patient.editProb("COVID", 1.2);
         
 
 end
 
-rule "Mucus"
+rule "Loss of taste or smell (b)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Mucus == true )
+    	patient: PatientPojo(detectSym("loss_taste_smell") == true) && PatientPojo(detectSymSev("loss_taste_smell") >= 3) && (PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
-        disease.setLung_cancer(disease.getLung_cancer() + 3);
-        disease.setBronchitis_Chronic(disease.getBronchitis_Chronic() + 2);
-        disease.setPneumonia(disease.getPneumonia() + 3);
-        disease.setFlu(disease.getFlu() + 3);        
-        disease.setCold(disease.getCold() + 3);    
+        
+        patient.editProb("COVID", 2.5);
         
 
 end
 
-rule "Expectoration"
+rule "Loss of taste or smell (c)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Expectoration == true )
+    	patient: PatientPojo(detectSym("loss_taste_smell") == true) && PatientPojo(detectSymSev("loss_taste_smell") >= 3)
     then
         
-        disease.setBronchitis_Chronic(disease.getBronchitis_Chronic() + 3);
-        disease.setAtelactasis(disease.getAtelactasis() + 2);
+        patient.editProb("COVID", 3);
         
 
 end
 
-rule "Stridor"
+rule "Congestion or running nose (a)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Stridor == true )
+    	patient: PatientPojo(detectSym("congestion_or_running_nose") == true) && PatientPojo(detectSymSev("congestion_or_running_nose") < 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
-
-        disease.setAtelactasis(disease.getAtelactasis() + 1);  
+    	patient.editProb("COVID", -0.8);
+    	patient.editProb("Flu", 1.2);  
+    	patient.editProb("Cold", 1.2);    
         
 
 end
 
-rule "Tachycardia"
+rule "Congestion or running nose (b)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Tachycardia == true )
+    	patient: PatientPojo(detectSym("congestion_or_running_nose") == true) && PatientPojo(detectSymSev("congestion_or_running_nose") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
     then
-
-        disease.setAtelactasis(disease.getAtelactasis() + 1);
-
-end
-
-rule "Hyperthermia"
-    dialect "java"
-
-    when
-    	disease: Disease()
-        symptom: Symptoms(Hyperthermia == true )
-    then
-
-        disease.setAtelactasis(disease.getAtelactasis() + 1); 
+    	patient.editProb("COVID", 0.5);
+    	patient.editProb("Flu", 2.5);  
+    	patient.editProb("Cold", 2.5);    
         
 
 end
 
-rule "Loss of negative_pressure"
+rule "Congestion or running nose (c)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Loss_negative_pressure == true )
-    then
+    	patient: PatientPojo(detectSym("congestion_or_running_nose") == true) && PatientPojo(detectSymSev("congestion_or_running_nose") >= 3)
 
-        disease.setPneumothorax(disease.getPneumothorax() + 2);
+    then
+    	patient.editProb("COVID", 1);
+    	patient.editProb("Flu", 3);  
+    	patient.editProb("Cold", 3);    
         
 
 end
 
-rule "Sneezing"
+rule "Nausea or vomiting (a)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Sneezing == true )
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
     then
-             
-        disease.setCold(disease.getCold() + 3);    
+    	patient.editProb("Pneumonia",1);
+    	patient.editProb("COVID", 1);
+        
+end
+
+rule "Nausea or vomiting (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
+    then
+    	patient.editProb("Pneumonia",1);
+    	patient.editProb("COVID", 1);
+        
+end
+
+rule "Nausea or vomiting (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("nausea_vomiting") == true) && PatientPojo(detectSymSev(nausea_vomiting") >= 3)
+    then
+    	patient.editProb("Pneumonia",1);
+    	patient.editProb("COVID", 1);
         
 end
 
 
-rule "Chronic cough"
+rule "Inflammation of the respiratory tract (a)"
     dialect "java"
 
     when
-    	disease: Disease()
-        symptom: Symptoms(Chronic_cough == true)
+    	patient: PatientPojo(detectSym("inflammation_respiratory_tract") == true) && PatientPojo(detectSymSev("inflammation_respiratory_tract") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Ace_inhibitors") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
     then
-        disease.setRespiratory_Insufficiency(disease.getRespiratory_Insufficiency() + 1);
-        disease.setLung_cancer(disease.getLung_cancer() + 3);
+
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Asthma", 2);
+
+end
+
+
+rule "Inflammation of the respiratory tract (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("inflammation_respiratory_tract") == true) && PatientPojo(detectSymSev("inflammation_respiratory_tract") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Ace_inhibitors") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
+    then
+
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Asthma", 2);
+
+end
+
+rule "Inflammation of the respiratory tract (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("inflammation_respiratory_tract") == true) && PatientPojo(detectSymSev("inflammation_respiratory_tract") >= 3)
+    then
+
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Asthma", 2);
+
+end
+
+rule "Sweating (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sweating") == true) && PatientPojo(detectSymSev("sweating") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true) || PatientPojo(detectDrug("Chemotherapy") == true)|| PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
+    then
+    	patient.editProb("Hyperapnea",0.2);
+    	patient.editProb("Pneumonia",1.2);
+    	patient.editProb("Dysnea",-0.8);
+    	patient.editProb("Asthma", -0.8);     
+
+end
+
+rule "Sweating (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sweating") == true) && PatientPojo(detectSymSev("sweating") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+  
+    then
+
+    	patient.editProb("Hyperapnea",1.5);
+    	patient.editProb("Pneumonia",2.5);
+    	patient.editProb("Dysnea",0.5);
+    	patient.editProb("Asthma", 0.5);     
+
+end
+
+rule "Sweating(c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sweating") == true) && PatientPojo(detectSymSev("sweating") >= 3)
+    then
+
+    	patient.editProb("Hyperapnea",2);
+    	patient.editProb("Pneumonia",3);
+    	patient.editProb("Dysnea",1);
+    	patient.editProb("Asthma", 1);     
+
+end
+
+rule "Mucus (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("mucus") == true) && PatientPojo(detectSymSev("mucus") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Bronchodilators") == true))
+  
+    then
+        patient.editProb("Lung_Cancer",1.2);
+    	patient.editProb("Pneumonia",3);
+    	patient.editProb("Bronchitis_Chronic",2);
+    	patient.editProb("Flu", 3);  
+    	patient.editProb("Cold", 3);  
+
+end
+
+rule "Mucus (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("mucus") == true) && PatientPojo(detectSymSev("mucus") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Bronchodilators") == true))
+  
+    then
+        patient.editProb("Lung_Cancer",3);
+    	patient.editProb("Pneumonia",3);
+    	patient.editProb("Bronchitis_Chronic",2);
+    	patient.editProb("Flu", 3);  
+    	patient.editProb("Cold", 3);  
+
+end
+
+rule "Mucus (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("mucus") == true) && PatientPojo(detectSymSev("mucus") >= 3)
+    then
+        patient.editProb("Lung_Cancer",3);
+    	patient.editProb("Pneumonia",3);
+    	patient.editProb("Bronchitis_Chronic",2);
+    	patient.editProb("Flu", 3);  
+    	patient.editProb("Cold", 3);  
+
+end
+
+rule "Expectoration (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("expectoration") == true) && PatientPojo(detectSymSev("expectoration") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Bronchodilators") == true))
+  
+    then
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Atelactasis",2);
+end
+
+rule "Expectoration (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("expectoration") == true) && PatientPojo(detectSymSev("expectoration") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Bronchodilators") == true))
+  
+    then
+
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Atelactasis",2);
+end
+
+rule "Expectoration (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("expectoration") == true) && PatientPojo(detectSymSev("expectoration") >= 3)
+    then
+
+    	patient.editProb("Bronchitis_Chronic",3);
+    	patient.editProb("Atelactasis",2);
+end
+
+rule "Stridor (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("stridor") == true) && PatientPojo(detectSymSev("stridor") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true) || PatientPojo(detectDrug("Chemotherapy") == true)|| PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true))
+  
+    then
+
+    	patient.editProb("Atelactasis", -0.8);
         
 
 end
 
-/*
-rule "Fever or chills2"
-	dialect "java"
-	when
-		medicine: Medicine()
-		symptom: Symptoms(Fever_chills == true)
-then
-		medicine.setNSAIDs(medicine.isNSAIDs() - 0.6);
-		medicine.setAntibiotics(medicine.isAntibiotics() - 0.9);
-		medicine.setAntidepressants(medicine.isAntidepressants() - 0.6);
-		medicine.setACE_inhibitors(medicine.isACE_inhibitors() - 0.3);
-		medicine.setBeta_Blockers(medicine.isBeta_Blockers() - 0.3);
-		medicine.setAntipsychotics(medicine.isAntipsychotics() - 0.6);
-		medicine.setChemotherapy_drugs(medicine.isChemotherapy_drugs() - 0.9);      
-		medicine.setAntihistamines(medicine.isAntihistamines() - 0.6);     
-end
-
-
-Rule for Fatigue:
-
-rule "Fatigue"
-dialect "java"
-when
-medicine: Medicine()
-symptom: Symptoms(fatigue == true)
-then
-medicine.setStimulants(medicine.isStimulants() - 3);
-medicine.setAntidepressants(medicine.isAntidepressants() - 2);
-medicine.setAntipsychotics(medicine.isAntipsychotics() - 2);
-medicine.setBronchodilators(medicine.isBronchodilators() - 2);
-medicine.setBeta_Blockers(medicine.isBeta_Blockers() - 1);
-medicine.setNSAIDs(medicine.isNSAIDs() - 2);
-medicine.setAntihistamines(medicine.isAntihistamines() - 1);
-medicine.setChemotherapy_drugs(medicine.isChemotherapy_drugs() - 1);
-medicine.setAntibiotics(medicine.isAntibiotics() - 1);
-end
-
-Rule for Headache:
-
-rule "Headache"
-dialect "java"
-when
-medicine: Medicine()
-symptom: Symptoms(headache == true)
-then
-medicine.setNSAIDs(medicine.isNSAIDs() - 3);
-medicine.setAntidepressants(medicine.isAntidepressants() - 2);
-medicine.setAntipsychotics(medicine.isAntipsychotics() - 2);
-medicine.setBronchodilators(medicine.isBronchodilators() - 2);
-medicine.setStimulants(medicine.isStimulants() - 1);
-medicine.setBeta_Blockers(medicine.isBeta_Blockers() - 1);
-medicine.setAntihistamines(medicine.isAntihistamines() - 1);
-medicine.setChemotherapy_drugs(medicine.isChemotherapy_drugs() - 1);
-medicine.setAntibiotics(medicine.isAntibiotics() - 1);
-end
-
-Rule for Diarrhea:
-
-rule "Diarrhea"
-dialect "java"
-when
-medicine: Medicine()
-symptom: Symptoms(diarrhea == true)
-then
-medicine.setAntibiotics(medicine.isAntibiotics() - 3);
-medicine.setChemotherapy_drugs(medicine.isChemotherapy_drugs() - 2);
-medicine.setAntipsychotics(medicine.isAntipsychotics() - 1);
-medicine.setStimulants(medicine.isStimulants() - 1);
-medicine.set
-
-
-rule "General"
+rule "Stridor (b)"
     dialect "java"
 
     when
-    	medicine: Medicine()
-        symptom: Symptoms(general == true )
+    	patient: PatientPojo(detectSym("stridor") == true) && PatientPojo(detectSymSev("stridor") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true) || PatientPojo(detectDrug("Chemotherapy") == true)|| PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true))
+  
     then
-        medicine.setBeta_Blockers(medicine.isBeta_Blockers() -);
-        medicine.setNSAIDs(medicine.isNSAIDs() -);
-        medicine.setOpiods(medicine.isOpiods() -);
-        medicine.setStatins(medicine.getisStatins() -);
-        medicine.setBronchodilators(medicine.isBronchodilators() -);
-        medicine.setStimulants(medicine.isStimulants()-);
-        medicine.setAntidepressants(medicine.isAntidepressants() -);
-        medicine.setACE_inhibitors(medicine.isACE_inhibitors() -);
-        medicine.setAntipsychotics(medicine.isAntipsychotics() -);
-        medicine.setChemotherapy_drugs(medicine.isChemotherapy_drugs() -);    
-        medicine.setAntibiotics(medicine.isAntibiotics() -);    
-        medicine.setAntihistamines(medicine.isAntihistamines() -);    
-        medicine.setSSRIs(medicine.isSSRIs() -);    
 
-end
-
-/*
-rule "general"
-    dialect "java"
-
-    when
-    	disease: Disease()
-        symptom: Symptoms(general == true )
-    then
-        disease.setHypoxemia(disease.getHypoxemia() + );
-        disease.setApnea(disease.getApnea() + );
-        disease.setHyperapnea(disease.getHyperapnea() + );
-        disease.setTachypnea(disease.getTachypnea() + );
-        disease.setDysnea(disease.getDysnea() + );
-        disease.setRespiratory_Insufficiency(disease.getRespiratory_Insufficiency() + );
-        disease.setLung_cancer(disease.getLung_cancer() + );
-        disease.setCOVID(disease.getCOVID() + );
-        disease.setAsthma(disease.getAsthma() + );
-        disease.setEmphysema(disease.getEmphysema() + );
-        disease.setBronchitis_Chronic(disease.getBronchitis_Chronic() + );
-        disease.setAtelactasis(disease.getAtelactasis() + );
-        disease.setPneumothorax(disease.getPneumothorax() + );
-        disease.setPneumonia(disease.getPneumonia() + );
-        disease.setMalignant_Pleura_Effusion(disease.getMalignant_Pleura_Effusion() + );
-        disease.setPulmonary_Embolism(disease.getPulmonary_Embolism() + );
-        disease.setFlu(disease.getFlu() + );        
-        disease.setCold(disease.getCold() + );    
+    	patient.editProb("Atelactasis",0.5);
         
 
-end*/
+end
 
-/*
+rule "Stridor (c)"
+    dialect "java"
 
-Rule "rule 1 for symptom and diseases"
-	dialect "java"
-	when 
-    	p1 : Patient(hasSOF())
+    when
+    	patient: PatientPojo(detectSym("stridor") == true) && PatientPojo(detectSymSev("stridor") >= 3)
     then
-    	p1.updateHypoxemia(LEVEL.H);
-    	p1.updateHYPERAPNEA(LEVEL.M);
 
+    	patient.editProb("Atelactasis",1);
+        
 
-Rule "rule 1 for MEDICINE AND SYMPTOMS"
-	dialect "java"
-	when 
-    	p1 : Patient(takesBB())
+end
+
+rule "Tachycardia (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("tachycardia") == true) && PatientPojo(detectSymSev("tachycardia") <= 2) && (PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Stimulants") == true))
+
     then
-    	p1.updateNegativeEvidenceForBB();
+        patient.editProb("Atelactasis",-0.8);
 
-*/
+end
+
+rule "Tachycardia (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("tachycardia") == true) && PatientPojo(detectSymSev("tachycardia") >= 3) && (PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Stimulants") == true))
+
+    then
+
+        patient.editProb("Atelactasis",0.5);
+
+end
+
+rule "Tachycardia (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("tachycardia") == true) && PatientPojo(detectSymSev("tachycardia") >= 3)  
+    
+    then
+
+        patient.editProb("Atelactasis",1);
+
+end
+
+
+rule "Hyperthermia (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("hyperthermia") == true) && PatientPojo(detectSymSev("hyperthermia") <= 2) && (PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true) || PatientPojo(detectDrug("Stimulants") == true))
+
+
+    then
+
+        patient.editProb("Atelactasis",-0.8); 
+        
+
+end
+
+
+rule "Hyperthermia (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("hyperthermia") == true) && PatientPojo(detectSymSev("hyperthermia") >= 3) && (PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true) || PatientPojo(detectDrug("Stimulants") == true))
+
+
+    then
+
+        patient.editProb("Atelactasis",0.5);
+        
+
+end
+
+rule "Hyperthermia (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("hyperthermia") == true) && PatientPojo(detectSymSev("hyperthermia") >= 3)
+    then
+
+        patient.editProb("Atelactasis",1);
+        
+
+end
+
+rule "Loss of negative_pressure (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("loss_negative_pressure") == true) && PatientPojo(detectSymSev("loss_negative_pressure") <= 2)
+    then
+	patient.editProb("Pneumothorax",1);  
+
+end
+
+rule "Loss of negative_pressure (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("loss_negative_pressure") == true) && PatientPojo(detectSymSev("loss_negative_pressure") >= 3)
+    then
+	patient.editProb("Pneumothorax",2);
+                
+
+end
+
+rule "Sneezing (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sneezing") == true) && PatientPojo(detectSymSev("sneezing") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+
+    then 
+	patient.editProb("Cold", 1.2);  
+        
+end
+
+rule "Sneezing (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sneezing") == true) && PatientPojo(detectSymSev("sneezing") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+
+    then 
+	patient.editProb("Cold", 2.5);  
+        
+end
+
+rule "Sneezing (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("sneezing") == true) && PatientPojo(detectSymSev("sneezing") >= 3)
+    then 
+	patient.editProb("Cold", 3);  
+        
+end
+
+rule "Chronic cough (a)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("chronic_cough") == true) && PatientPojo(detectSymSev("chronic_cough") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Ace_inhibitors") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
+    then
+
+    	patient.editProb("Respiratory_Insufficiency", 1); 
+    	patient.editProb("Lung_Cancer", 3);  
+
+end
+
+rule "Chronic cough (b)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("chronic_cough") == true) && PatientPojo(detectSymSev("chronic_cough") >= 3)&& (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Ace_inhibitors") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antidepressant") == true))
+  
+    then
+
+    	patient.editProb("Respiratory_Insufficiency", 1); 
+    	patient.editProb("Lung_Cancer", 3);  
+
+end
+
+rule "Chronic cough (c)"
+    dialect "java"
+
+    when
+    	patient: PatientPojo(detectSym("chronic_cough") == true) && PatientPojo(detectSymSev("chronic_cough") >= 3)
+    then
+
+    	patient.editProb("Respiratory_Insufficiency", 1); 
+    	patient.editProb("Lung_Cancer", 3);  
+
+end
+
+
+rule "Final rule"
+    dialect "java"
+
+    when
+    	patient: PatientPojo()
+    then
+
+    	patient.negsToZero(); 
+
+end
+

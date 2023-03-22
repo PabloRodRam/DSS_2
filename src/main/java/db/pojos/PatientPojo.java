@@ -118,6 +118,14 @@ public class PatientPojo implements Serializable { //Serializable is used to hav
 
 	}
 	
+	public void negsToZero(){
+		for (int i = 0; i < disease.size(); i++) {
+			if (disease.get(i).getScore() < 0) {
+
+				disease.get(i).setScore((float) 0);
+			}		
+	}
+	
 
 
 	
