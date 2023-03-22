@@ -1258,7 +1258,7 @@ rule "Congestion or running nose (a)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("congestion_or_running_nose") == true) && PatientPojo(detectSymSev("congestion_or_running_nose") < 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
+    	patient: PatientPojo(detectSym("congestion_or_running_nose") == true) && PatientPojo(detectSymSev("congestion_or_running_nose") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true)|| PatientPojo(detectDrug("Statins") == true) || PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Chemotherapy") == true) || PatientPojo(detectDrug("Ace_Inhibitor") == true) || PatientPojo(detectDrug("Antihistamines") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Antipsychotic") == true))
   
     then
     	patient.editProb("COVID", -0.8);
@@ -1496,7 +1496,7 @@ rule "Stridor (a)"
     dialect "java"
 
     when
-    	patient: PatientPojo(detectSym("stridor") == true) && PatientPojo(detectSymSev("stridor") >= 3) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true) || PatientPojo(detectDrug("Chemotherapy") == true)|| PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true))
+    	patient: PatientPojo(detectSym("stridor") == true) && PatientPojo(detectSymSev("stridor") <= 2) && (PatientPojo(detectDrug("Betablockers") == true) || PatientPojo(detectDrug("Nsaids") == true) || PatientPojo(detectDrug("Opiods") == true) || PatientPojo(detectDrug("Chemotherapy") == true)|| PatientPojo(detectDrug("Antibiotics") == true) || PatientPojo(detectDrug("Antidepressant") == true) || PatientPojo(detectDrug("Ace_Inhibitors") == true))
   
     then
 
