@@ -9,6 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="DROOLS/Drools"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/DroolsExtended"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQL"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Sqlite"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
