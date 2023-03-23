@@ -1,6 +1,7 @@
 package db.menu;
 
 import java.io.*;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -13,7 +14,18 @@ import db.menu.Utils;
 import db.pojos.users.User;
 
 public class Menu {
+<<<<<<< HEAD
+	/*
+=======
+>>>>>>> branch 'main' of https://github.com/PabloRodRam/DSS_2
 
+<<<<<<< HEAD
+	private static UserManager userMan = new DBManagerSQL();
+	
+	
+	//public static void main(String[] args) throws Exception, IOException {
+	
+=======
 	private static UserManager userMan = new JPAUserManagment();
 	private static AirCheckMan inter = new DBManagerSQL();
 
@@ -21,6 +33,7 @@ public class Menu {
 		inter.connect();
 		userMan.connect();
 
+>>>>>>> branch 'main' of https://github.com/PabloRodRam/DSS_2
 		do {
 			// LOGGING IN
 			System.out.println("Choose an option: ");
@@ -48,11 +61,33 @@ public class Menu {
 				System.out.println("Error, nonvalid input.");
 				break;
 			}
+<<<<<<< HEAD
+		}while (bol == true);
+		
+		System.out.println("Now write your password:");
+		String password = Utils.readLine();
+		
+		System.out.println(dbMan.get);
+		System.out.println("Type the chosen role ID: ");
+		int id = Utils.readInt();
+		Role role = userMan.getRole(id);
+		
+		MessageDigest md = MessageDigest.getInstance("MD5"); //for changing the password into a different language which is MD5
+		md.update(password.getBytes());
+		byte[] hash = md.digest(); //the hash that is the one that translates
+		
+		User user = new User (email, hash, role);
+		userMan.newUser(user);*/
+	//}
+	
+/*
+=======
 
 		} while (true);
 
 	}
 
+>>>>>>> branch 'main' of https://github.com/PabloRodRam/DSS_2
 	private static void register() throws IOException, Exception {
 		System.out.println("Please type in your email address:\n");
 		String email = Utils.readLine();
@@ -432,6 +467,38 @@ public class Menu {
 		String email = Utils.readLine();
 		System.out.println("Now, please, introduce again your password:");
 		String password = Utils.readLine();
+<<<<<<< HEAD
+		User user = userMan.checkPassword(emailOld, password);
+		
+		if (user == null) {
+			System.out.println("Wrong email of password");
+		} else {
+			System.out.println("Now write your new email: ");
+			String emailNew = Utils.readLine();
+			
+			//WE CHECK FOR THE USER TO EXIST WITH A BOOLEAN
+			
+			Boolean bol = true;
+			
+			do {
+				/*if(bol == true) {
+					System.out.println("This email is already used. Please pick another one: ");
+					emailNew = Utils.readLine();
+					
+					if(KeyboardInput.adminMan.checkForUsers(emailNew) == false) {
+						bol = false;
+					}
+				}
+			}while (bol == true);
+			
+			userMan.updateEmail(emailNew, emailOld);*/
+			/*System.out.println("Your email has been changed.");
+			
+			}while (bol == true);
+		}//else
+	}//changeEmail?? LO QUEREMOS ESTO????
+*/
+=======
 		System.out.println("Are you sure you want to delete your account? (YES / NO)");
 		String sure = Utils.readLine();
 		if (sure.equalsIgnoreCase("yes")) {
@@ -439,6 +506,7 @@ public class Menu {
 		}
 
 	}
+>>>>>>> branch 'main' of https://github.com/PabloRodRam/DSS_2
 
 	private static void changeEmail() throws IOException, Exception {
 		System.out.println("Please, introduce again your email address:");
