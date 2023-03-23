@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="DROOLS/Drools"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/DroolsExtended"/>
 	<classpathentry kind="lib" path="C:/Users/pablo/eclipse-workspace/DSS_2/Others/sqlite-jdbc-3.8.7.jar"/>
+	<classpathentry kind="lib" path="/Users/nataliap.st./git/DSS_2/Others/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,6 +1,7 @@
 package db.menu;
 
 import java.io.*;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -14,12 +15,12 @@ import db.pojos.users.User;
 
 
 public class Menu {
-	
+	/*
 
 	private static UserManager userMan = new DBManagerSQL();
 	
 	
-	public static void main(String[] args) throws Exception, IOException {
+	//public static void main(String[] args) throws Exception, IOException {
 	
 		do {
 		//LOGGING IN
@@ -88,9 +89,9 @@ public class Menu {
 		
 		User user = new User (email, hash, role);
 		userMan.newUser(user);*/
-	}
+	//}
 	
-
+/*
 	private static void register() throws IOException, Exception {
 		System.out.println("Please type in your email address:");
 		String email = Utils.readLine();
@@ -155,12 +156,12 @@ public class Menu {
 			}while (bol == true);
 			
 			userMan.updateEmail(emailNew, emailOld);*/
-			System.out.println("Your email has been changed.");
+			/*System.out.println("Your email has been changed.");
 			
 			}while (bol == true);
 		}//else
 	}//changeEmail?? LO QUEREMOS ESTO????
-
+*/
 
 }//menu
 
