@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DiseasePojo implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3161747565591185462L;
 	private Integer id;
 	private String name; 
 	private String basicInfo;

@@ -51,6 +51,7 @@ public class JPAUserManagment implements UserManager{
 		}catch(NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}catch(NoResultException nre) {
+			nre.printStackTrace();
 			return null;
 		}
 		return null;
@@ -68,6 +69,7 @@ public class JPAUserManagment implements UserManager{
 				return false;
 			}
 		}catch(NoResultException nre) {
+			nre.printStackTrace();
 			return false;
 		}
 		catch(Exception e) {

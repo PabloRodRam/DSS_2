@@ -10,10 +10,11 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User implements Serializable{
 
+	private static final long serialVersionUID = -3161747565591185462L;
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3902983480527656994L;
+	
 
 	@Id
 	@GeneratedValue(generator = "users")

@@ -10,7 +10,7 @@ import java.util.List;
 public class PatientPojo implements Serializable { //Serializable is used to have things exist outside memory (in the computer)
 
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3161747565591185462L;
 	private Integer id;
 	private String name; //for easy access when still do not have a "barcode reader"
 	private Gender gender;
