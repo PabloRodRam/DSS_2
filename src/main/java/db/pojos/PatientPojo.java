@@ -123,7 +123,8 @@ public class PatientPojo implements Serializable { //Serializable is used to hav
 			if (disease.get(i).getScore() < 0) {
 
 				disease.get(i).setScore((float) 0);
-			}		
+			}
+		}
 	}
 	
 

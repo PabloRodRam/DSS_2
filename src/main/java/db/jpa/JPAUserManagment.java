@@ -18,7 +18,7 @@ public class JPAUserManagment implements UserManager{
 	
 	@Override
 	public void connect() {
-		em = Persistence.createEntityManagerFactory("user-login").createEntityManager();
+		em = Persistence.createEntityManagerFactory("user-pass").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
 		em.getTransaction().commit();
@@ -73,7 +73,7 @@ public class JPAUserManagment implements UserManager{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -92,7 +92,6 @@ public class JPAUserManagment implements UserManager{
 
 			}else {
 				User u = (User) q.getSingleResult();
-
 				em.getTransaction().begin();
 				em.remove(u);
 				em.getTransaction().commit();	
@@ -113,8 +112,7 @@ public class JPAUserManagment implements UserManager{
 			Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? ", User.class);
 			q.setParameter(1, oldMail);
 			q.setParameter(2, hash);
-			User u = (User) q.getSingleResult();
-			
+			User u = (User) q.getSingleResult();		
 			em.getTransaction().begin();
 			u.setEmail(newMail);
 			em.getTransaction().commit();

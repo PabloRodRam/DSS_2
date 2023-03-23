@@ -12,21 +12,18 @@ import org.kie.api.runtime.KieSession;
 
 import db.interfaces.*;
 import db.jdbc.*;
+import db.jpa.JPAUserManagment;
 import db.pojos.*;
 
 
 
 public class Main {
-	private static UserManager dbMan = new DBManagerSQL();
-	//private static UserManager userMan = (UserManager) new User(); //Alfonso? Revisa esto porfi
-	private static SymptomsManager symMan = new SymptomsSQL();
-	private static DrugsManager drugMan = new DrugSQL();
-	private static DiseaseManager disMan = new DiseaseSQL();
-	private static PatientManager patMan = new PatientSQL();
+	private static UserManager userMan = new JPAUserManagment();
+	private static AirCheckMan inter = new DBManagerSQL();
 	public static void main(String[] args) throws Exception, IOException{
 	
-		dbMan.connect();
-	//	userMan.connect();
+		userMan.connect();
+		inter.connect();
 	
 		
 	    SymptomsPojo sim1 = new SymptomsPojo("shortness_breath", 1);
@@ -122,12 +119,12 @@ public class Main {
 			
 			List<SymptomsPojo> theSymptoms = new ArrayList<SymptomsPojo>();
 			List<PatientPojo> thePatients = new ArrayList<PatientPojo>();
-			theSymptoms = symMan.listSymptoms();
-			thePatients = patMan.listPatients();
+			theSymptoms = inter.listSymptoms();
+			thePatients = inter.listPatients();
 			
 			for(int i = 0; i<thePatients.size(); i++) {
 				for(int j = 0; j<theSymptoms.size(); j++) {
-					patMan.addSymptomsToPatient(thePatients.get(i), theSymptoms.get(j));
+					inter.addSymptomsToPatient(thePatients.get(i), theSymptoms.get(j));
 				}
 			}
 			
